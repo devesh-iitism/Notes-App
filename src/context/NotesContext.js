@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const NotesContext = React.createContext();
 
 export const NotesProvider = ({ children }) => {
-    return <NotesContext.Provider value={5}>
+    const [notes, setNotes] = useState([]);
+
+    const addNotes = () => {
+        setNotes([...notes, {title: `Notes #${notes.length+1}`}]);
+    }
+
+    return <NotesContext.Provider value={{data: notes, addNotes}}>
         {children}
     </NotesContext.Provider>
 };
