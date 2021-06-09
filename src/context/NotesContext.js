@@ -1,17 +1,23 @@
-import React, { useState } from 'react';
+import createDataContext from './createDataContext';
 
-const NotesContext = React.createContext();
+const notesReducer = (state, action) => {
+    switch(action.type) {
+        case 'add_notes':
+            return [...state, {title: `Notes #${state.length+1}`}];
 
-export const NotesProvider = ({ children }) => {
-    const [notes, setNotes] = useState([]);
-
-    const addNotes = () => {
-        setNotes([...notes, {title: `Notes #${notes.length+1}`}]);
+        default:
+            return state;
     }
-
-    return <NotesContext.Provider value={{data: notes, addNotes}}>
-        {children}
-    </NotesContext.Provider>
 };
 
-export default NotesContext;
+const addNotes = (dispatch) => {
+    return () => {
+        dispatch({type: 'add_notes'});
+    };
+};
+
+export const { Context, Provider } = createDataContext(
+    notesReducer, 
+    {addNotes},
+    []
+);
