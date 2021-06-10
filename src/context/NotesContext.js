@@ -37,5 +37,5 @@ const deleteNotes = (dispatch) => {
 export const { Context, Provider } = createDataContext(
     notesReducer, 
     {addNotes, deleteNotes},
-    []
+    [{title: 'TEST NOTE', content: 'TEST CONTENT', id: 1}]
 );
