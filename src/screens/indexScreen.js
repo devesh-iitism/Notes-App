@@ -4,10 +4,9 @@ import { Context } from '../context/NotesContext';
 import { Feather } from '@expo/vector-icons';
 
 const IndexScreen = ({ navigation }) => {
-    const {state, addNotes, deleteNotes} = useContext(Context);
+    const {state, deleteNotes} = useContext(Context);
 
     return <View>
-        <Button title="Add Notes" onPress={addNotes}/>
         <FlatList 
             data={state}
             keyExtractor={(note) => note.title}
@@ -25,6 +24,16 @@ const IndexScreen = ({ navigation }) => {
             }}
         />
     </View>
+}
+
+IndexScreen.navigationOptions = ({ navigation }) => {
+    return {
+        headerRight: () => (
+          <TouchableOpacity onPress={() => navigation.navigate('Create')}>
+            <Feather name="plus" size={30} />
+          </TouchableOpacity>
+        ),
+    };
 }
 
 const styles = StyleSheet.create({
