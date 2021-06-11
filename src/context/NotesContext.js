@@ -16,6 +16,13 @@ const notesReducer = (state, action) => {
         case 'delete_notes':
             return state.filter((notes) => notes.id !== action.payload);
         
+        case 'edit_notes':
+            return state.map((note) => {
+                return note.id === action.payload.id ?
+                    action.payload :
+                    note;
+            });
+
         default:
             return state;
     }
@@ -24,7 +31,9 @@ const notesReducer = (state, action) => {
 const addNotes = (dispatch) => {
     return (title, content, callback) => {
         dispatch({type: 'add_notes', payload: {title, content}});
-        callback();
+        
+        if(callback)
+            callback();
     };
 };
 
@@ -32,10 +41,18 @@ const deleteNotes = (dispatch) => {
     return (id) => {
         dispatch({type: 'delete_notes', payload: id});
     };
-};  
+}; 
+
+const editNotes = (dispatch) => {
+    return (id, title, content, callback) => {
+        dispatch({type: 'edit_notes', payload: {id, title, content}});
+        if(callback)
+            callback();
+    };
+};
 
 export const { Context, Provider } = createDataContext(
     notesReducer, 
-    {addNotes, deleteNotes},
+    {addNotes, deleteNotes, editNotes},
     [{title: 'TEST NOTE', content: 'TEST CONTENT', id: 1}]
 );

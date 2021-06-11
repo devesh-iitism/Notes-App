@@ -5,7 +5,9 @@ import NoteForm from '../components/NoteForm';
 
 const CreateScreen = ({ navigation }) => {
     const { addNotes } = useContext(Context);
-    return <NoteForm />
+    return <NoteForm onSubmit={(title, content) => {
+        addNotes(title, content, () => navigation.navigate('Index'));
+    }} />
     
 };
 

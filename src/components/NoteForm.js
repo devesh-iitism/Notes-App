@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
 
-const NoteForm = () => {
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
+const NoteForm = ({ onSubmit, initialValues }) => {
+    const [title, setTitle] = useState(initialValues.title);
+    const [content, setContent] = useState(initialValues.content);
 
     return (
         <View>
@@ -13,9 +13,17 @@ const NoteForm = () => {
             <TextInput style={styles.input} value={content} onChangeText={(text) => setContent(text)}/>
             <Button 
                 title="Save Note" 
+                onPress={() => onSubmit(title, content)}
             />
         </View>
     )
+};
+
+NoteForm.defaultProps = {
+    initialValues: {
+        title: '',
+        content: ''
+    }
 };
 
 const styles = StyleSheet.create({
